@@ -10,4 +10,4 @@ RUN apt update \
 && ./docker_install.sh \
 && apt clean
 EXPOSE 8080
-CMD ["./run/op25/op25/gr-op25_repeater/apps/multi_rx.py","-c","$config_file"]
+CMD ["./tmp/op25/op25/gr-op25_repeater/apps/multi_rx.py","-c","$config_file"]

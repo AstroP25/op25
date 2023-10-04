@@ -3,12 +3,10 @@ FROM debian:bullseye-slim
 ENV config_file="configs/config.json"
 # Update, clone op25 from Github and build
 ADD * /tmp/op25
-WORKDIR /tmp/op25
+WORKDIR /tmp/op25/build
 RUN apt-get update \
 && apt-get upgrade -y \
 && apt-get install -y gnuradio gnuradio-dev gr-osmosdr librtlsdr-dev libuhd-dev libhackrf-dev libitpp-dev libpcap-dev liborc-dev cmake git swig build-essential pkg-config doxygen python3-numpy python3-waitress python3-requests gnuplot-x11 \
-&& mkdir build \
-&& cd build \
 && cmake ../ \
 && make \
 && make install \

@@ -6,6 +6,7 @@ ADD * /tmp/op25
 WORKDIR /tmp/op25
 RUN apt update \
 && apt upgrade -y \
+&& chmod +x docker_install.sh \
 && ./docker_install.sh \
 && apt clean
 EXPOSE 8080

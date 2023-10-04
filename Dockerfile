@@ -6,7 +6,7 @@ ADD * /tmp/op25
 WORKDIR /tmp/op25
 RUN apt-get update \
 && apt-get upgrade -y \
-&& apt-get install -y gnuradio gnuradio-dev gr-osmosdr librtlsdr-dev libuhd-dev  libhackrf-dev libitpp-dev libpcap-dev cmake git swig build-essential pkg-config doxygen python-numpy python-waitress python-requests gnuplot-x11 \
+&& apt-get install -y gnuradio gnuradio-dev gr-osmosdr librtlsdr-dev libuhd-dev libhackrf-dev libitpp-dev libpcap-dev liborc-dev cmake git swig build-essential pkg-config doxygen python3-numpy python3-waitress python3-requests gnuplot-x11 \
 && mkdir build \
 && cd build \
 && cmake ../ \

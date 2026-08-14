@@ -1,0 +1,25 @@
+# Stage 1: Bulid OP25
+FROM alpine:3.22 AS builder
+
+RUN apk update --no-cache && \
+apk upgrade && \
+apk add build-base gnuradio gnuradio-dev gr-osmosdr rtl-sdr uhd-libs cmake doxygen boost clang clang-dev cppunit cppunit-dev py3-pybind11 py3-numpy py3-waitress py3-setuptools gnuplot libsndfile spdlog hackrf
+ADD https://github.com/boatbod/op25.git /op25
+
+WORKDIR /op25
+RUN ash build_bindings.sh
+RUN mkdir build && \
+cd build && \
+cmake -DCMAKE_INSTALL_PREFIX="/usr" ../ && \
+make install
+
+# Stage 2: Runtime
+FROM alpine:3.22
+COPY --from=builder /op25 /op25
+ADD config.json example_keys.json p25_rtl_example.json p25_single_rtl_example.json /op25/op25/gr-op25_repeater/apps/
+
+WORKDIR /op25/op25/gr-op25_repeater/apps/
+RUN apk update --no-cache &&\
+apk add gnuradio gr-osmosdr rtl-sdr uhd-libs doxygen boost clang cppunit py3-pybind11 py3-numpy py3-waitress py3-setuptools gnuplot libsndfile spdlog hackrf
+
+CMD ["multi_rx.py","-c","config.json","-v"]
